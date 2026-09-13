@@ -2,7 +2,7 @@
  * Partners (clients/carriers) — pure business rules, no SQL.
  * Additional validation beyond the zod schemas in contracts/src/inputs.ts.
  */
-import { ApiError } from "../errors.js";
+import { ApiError } from "../errors";
 
 const GSTIN_REGEX = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
 const PINCODE_REGEX = /^\d{6}$/;

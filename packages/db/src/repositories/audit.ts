@@ -19,10 +19,10 @@ import {
   type SQL,
 } from "drizzle-orm";
 import { listEnvelope, type AuditEventDTO, type AuditListQuery, type ListEnvelope } from "@logiflow/contracts";
-import { db } from "../client.js";
-import type { Actor } from "../actor.js";
-import { auditEvents } from "../schema/index.js";
-import { rowToAuditEvent } from "../mapping.js";
+import { db } from "../client";
+import type { Actor } from "../actor";
+import { auditEvents } from "../schema/index";
+import { rowToAuditEvent } from "../mapping";
 
 // ── Sort columns ────────────────────────────────────────────────────────────
 

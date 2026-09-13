@@ -5,7 +5,7 @@
  * formula-injection neutralisation for leading =, +, -, @, tab and CR.
  */
 import { describe, it, expect } from "vitest";
-import { escapeCsvCell, toCsv, toJsonLines, exportFilename } from "../csv.js";
+import { escapeCsvCell, toCsv, toJsonLines, exportFilename } from "../csv";
 
 // ── escapeCsvCell ───────────────────────────────────────────────────────────
 describe("escapeCsvCell", () => {

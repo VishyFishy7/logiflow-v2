@@ -35,8 +35,8 @@ import {
   type ShipmentDTO,
   type InvoiceDTO,
 } from "@logiflow/contracts";
-import { db, type Executor } from "../client.js";
-import type { Actor } from "../actor.js";
+import { db, type Executor } from "../client";
+import type { Actor } from "../actor";
 import {
   carriers,
   checkpoints,
@@ -45,9 +45,9 @@ import {
   invoiceLines,
   leads,
   shipments,
-} from "../schema/index.js";
-import { rowToShipment, rowToInvoice, rowToLead, rowToClient } from "../mapping.js";
-import { buildKpiCard, type DashboardSection, type AnalyticsSection } from "../services/stats.js";
+} from "../schema/index";
+import { rowToShipment, rowToInvoice, rowToLead, rowToClient } from "../mapping";
+import { buildKpiCard, type DashboardSection, type AnalyticsSection } from "../services/stats";
 
 // ── Helper: today boundaries in IST ─────────────────────────────────────────
 
@@ -391,8 +391,8 @@ async function computeHeatmap(actor: Actor) {
 
 async function computeRecentActivity(actor: Actor) {
   // Import auditEvents inline to avoid circular deps
-  const { auditEvents } = await import("../schema/index.js");
-  const { rowToAuditEvent } = await import("../mapping.js");
+  const { auditEvents } = await import("../schema/index");
+  const { rowToAuditEvent } = await import("../mapping");
 
   const rows = await db
     .select()
@@ -500,11 +500,11 @@ async function hydrateShipments(rows: (typeof shipments.$inferSelect)[], actor: 
   const [clientRows, carrierRows, userRows] = await Promise.all([
     clientIds.length ? db.select().from(clients).where(sql`${clients.id} IN ${clientIds}`) : [],
     carrierIds.length ? db.select().from(carriers).where(sql`${carriers.id} IN ${carrierIds}`) : [],
-    userIds.length ? db.select().from((await import("../schema/index.js")).users).where(sql`${(await import("../schema/index.js")).users.id} IN ${userIds}`) : [],
+    userIds.length ? db.select().from((await import("../schema/index")).users).where(sql`${(await import("../schema/index")).users.id} IN ${userIds}`) : [],
   ]);
 
   // Simpler approach: import users at module level
-  const { users: usersTable } = await import("../schema/index.js");
+  const { users: usersTable } = await import("../schema/index");
   const userRows2 = userIds.length
     ? await db.select().from(usersTable).where(sql`${usersTable.id} IN ${userIds}`)
     : [];
@@ -548,7 +548,7 @@ async function hydrateLeads(rows: (typeof leads.$inferSelect)[]): Promise<LeadDT
   if (rows.length === 0) return [];
 
   const userIds = [...new Set(rows.map((r) => r.assignedTo).filter(Boolean))] as string[];
-  const { users: usersTable } = await import("../schema/index.js");
+  const { users: usersTable } = await import("../schema/index");
   const userRows = userIds.length
     ? await db.select().from(usersTable).where(sql`${usersTable.id} IN ${userIds}`)
     : [];

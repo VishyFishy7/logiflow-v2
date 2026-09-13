@@ -18,9 +18,9 @@
  *     seeded invoice number so the next `mintInvoiceNumber()` call won't collide.
  */
 import { demoDataset, DEMO_PASSWORD, type DemoDataset } from "@logiflow/contracts";
-import { hashPassword } from "./services/auth.js";
-import { db, sqlite } from "./client.js";
-import * as schema from "./schema/index.js";
+import { hashPassword } from "./services/auth";
+import { db, sqlite } from "./client";
+import * as schema from "./schema/index";
 import { newId } from "@logiflow/shared";
 
 // ── Run migrations first ────────────────────────────────────────────────────

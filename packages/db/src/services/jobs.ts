@@ -13,8 +13,8 @@
 import { eq, and, lt, isNull, asc, sql } from "drizzle-orm";
 import { newId } from "@logiflow/shared";
 import type { JobType } from "@logiflow/contracts";
-import { jobs } from "../schema/index.js";
-import type { Executor } from "../client.js";
+import { jobs } from "../schema/index";
+import type { Executor } from "../client";
 
 // ── Constants ───────────────────────────────────────────────────────────────
 

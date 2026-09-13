@@ -13,8 +13,8 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { toJsonLines, REDACTED_LOG_PATHS } from "@logiflow/shared";
-import { db, sqlite } from "./client.js";
-import { tenants } from "./schema/index.js";
+import { db, sqlite } from "./client";
+import { tenants } from "./schema/index";
 
 // ── Config ──────────────────────────────────────────────────────────────────
 

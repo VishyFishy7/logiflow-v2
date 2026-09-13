@@ -14,7 +14,7 @@ import {
   formatMoneyCompact,
   taxOn,
   computeInvoiceTotals,
-} from "../money.js";
+} from "../money";
 
 // ── Conversions ─────────────────────────────────────────────────────────────
 describe("rupeesToPaise / paiseToRupees", () => {

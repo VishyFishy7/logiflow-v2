@@ -4,10 +4,10 @@
  * Re-exports the client, error types, actor, audit, mapping helpers,
  * and key repository/service functions that route handlers need.
  */
-export { db, getDb, type Db, type Tx, type Executor } from "./client.js";
-export { ApiError, notFound, validationFailed } from "./errors.js";
-export { type Actor, type AuditActorRef, systemActor, decideScope } from "./actor.js";
-export { recordAudit, diffChanges, type AuditEntry } from "./audit.js";
+export { db, getDb, type Db, type Tx, type Executor } from "./client";
+export { ApiError, notFound, validationFailed } from "./errors";
+export { type Actor, type AuditActorRef, systemActor, decideScope } from "./actor";
+export { recordAudit, diffChanges, type AuditEntry } from "./audit";
 export {
   envelope,
   internalIdEnvelope,
@@ -22,30 +22,30 @@ export {
   rowToNotification,
   rowToAuditEvent,
   type ShipmentSideData,
-} from "./mapping.js";
-export * from "./schema/index.js";
-export { exportSnapshot } from "./export-snapshot.js";
+} from "./mapping";
+export * from "./schema/index";
+export { exportSnapshot } from "./export-snapshot";
 
 // ── Auth ────────────────────────────────────────────────────────────────────
-export { hashPassword, verifyPassword, checkPasswordStrength } from "./services/auth.js";
+export { hashPassword, verifyPassword, checkPasswordStrength } from "./services/auth";
 export {
   createSession,
   getSession,
   resolveActor,
   buildSessionResponse,
   type SessionResult,
-} from "./services/session.js";
+} from "./services/session";
 export {
   listNotifications,
   markRead,
   markAllRead,
   createNotification,
   type NotificationRow,
-} from "./services/notifications.js";
+} from "./services/notifications";
 export {
   lookupPublicTracking,
   type BrandResolver,
-} from "./services/tracking.js";
+} from "./services/tracking";
 
 // ── Repositories ────────────────────────────────────────────────────────────
 export {
@@ -61,7 +61,7 @@ export {
   bulkStatus,
   shipmentsCsv,
   type ShipmentFilterValues,
-} from "./repositories/shipments.js";
+} from "./repositories/shipments";
 
 export {
   listTeam,
@@ -71,9 +71,9 @@ export {
   deactivateUser,
   changeRole,
   type TeamMember,
-} from "./repositories/users.js";
+} from "./repositories/users";
 
-export { listAuditEvents, auditTimelineForEntity, type AuditFacets } from "./repositories/audit.js";
+export { listAuditEvents, auditTimelineForEntity, type AuditFacets } from "./repositories/audit";
 
 export {
   listLeads,
@@ -82,7 +82,7 @@ export {
   updateLead,
   logLeadActivity as addLeadActivity,
   convertLeadToClient as convertLead,
-} from "./repositories/leads.js";
+} from "./repositories/leads";
 
 export {
   listInvoices,
@@ -90,7 +90,7 @@ export {
   createInvoice,
   updateInvoiceStatus as updateInvoice,
   invoicesCsv as exportInvoicesCsv,
-} from "./repositories/invoices.js";
+} from "./repositories/invoices";
 
 export {
   listClients,
@@ -99,7 +99,7 @@ export {
   listCarriers,
   createCarrier,
   updateCarrier,
-} from "./repositories/partners.js";
+} from "./repositories/partners";
 
 export {
   getTenant,
@@ -109,6 +109,6 @@ export {
   updateDelayReasons,
   updateLeadSources,
   brandPreview,
-} from "./repositories/tenant.js";
+} from "./repositories/tenant";
 
-export { dashboardStats as getDashboardStats } from "./repositories/stats.js";
+export { dashboardStats as getDashboardStats } from "./repositories/stats";

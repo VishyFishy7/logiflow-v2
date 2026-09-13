@@ -19,7 +19,7 @@ import {
   addDays,
   todayAt,
   isoDate,
-} from "../dates.js";
+} from "../dates";
 
 // A known IST instant: 2026-09-13 14:35 IST = 2026-09-13 09:05 UTC
 const KNOWN_IST = Date.UTC(2026, 8, 13, 9, 5, 0); // 09:05 UTC = 14:35 IST

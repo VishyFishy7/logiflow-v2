@@ -6,7 +6,7 @@ import {
   type Role,
 } from "@logiflow/shared";
 import type { AuditActorType, AuditSource } from "@logiflow/contracts";
-import { clients, shipments } from "./schema/index.js";
+import { clients, shipments } from "./schema/index";
 
 /**
  * The identity every repository call carries. `reveal` is resolved once, at the

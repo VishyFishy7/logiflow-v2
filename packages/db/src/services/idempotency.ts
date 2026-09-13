@@ -13,9 +13,9 @@
 import { createHash } from "node:crypto";
 import { eq, and, lt } from "drizzle-orm";
 import { newId } from "@logiflow/shared";
-import { idempotencyKeys } from "../schema/index.js";
-import { ApiError } from "../errors.js";
-import type { Executor } from "../client.js";
+import { idempotencyKeys } from "../schema/index";
+import { ApiError } from "../errors";
+import type { Executor } from "../client";
 
 /** Default TTL: 24 hours (PRD §9.8). */
 const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000;

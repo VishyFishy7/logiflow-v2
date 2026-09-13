@@ -17,7 +17,7 @@ import {
   ASSIGNABLE_ROLES,
   type Role,
   type Permission,
-} from "../rbac.js";
+} from "../rbac";
 
 // ── MATRIX integrity ────────────────────────────────────────────────────────
 describe("MATRIX", () => {

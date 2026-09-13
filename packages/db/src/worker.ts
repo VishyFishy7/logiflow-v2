@@ -13,12 +13,12 @@
 import { eq, and, lt, desc, sql } from "drizzle-orm";
 import { newId } from "@logiflow/shared";
 import type { JobType } from "@logiflow/contracts";
-import { db, sqlite } from "./client.js";
-import { systemActor } from "./actor.js";
-import { recordAudit } from "./audit.js";
-import { shipments, invoices, leads, users } from "./schema/index.js";
-import { claimJob, completeJob, failJob, type JobRow } from "./services/jobs.js";
-import { cleanupExpiredIdempotency } from "./services/idempotency.js";
+import { db, sqlite } from "./client";
+import { systemActor } from "./actor";
+import { recordAudit } from "./audit";
+import { shipments, invoices, leads, users } from "./schema/index";
+import { claimJob, completeJob, failJob, type JobRow } from "./services/jobs";
+import { cleanupExpiredIdempotency } from "./services/idempotency";
 
 // ── Job handlers ────────────────────────────────────────────────────────────
 

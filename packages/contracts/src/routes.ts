@@ -5,7 +5,7 @@
  *  3. the MSW mock handlers, so a mock can never invent a route the server lacks.
  */
 import type { Permission } from "@logiflow/shared";
-import type { ApiErrorCode } from "./common.js";
+import type { ApiErrorCode } from "./common";
 
 export type ScopeMode = "all" | "assigned" | "own_clients";
 export type Access = "public" | "auth";

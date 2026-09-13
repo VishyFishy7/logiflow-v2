@@ -30,7 +30,7 @@ import type {
   leads,
   notifications,
   shipments,
-} from "./schema/index.js";
+} from "./schema/index";
 
 /**
  * Masking envelope. When the viewer holds `tracking:reveal` the raw value is

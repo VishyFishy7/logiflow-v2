@@ -5,7 +5,7 @@
  * referential integrity, status/date coherence.
  */
 import { describe, it, expect } from "vitest";
-import { demoDataset } from "../fixtures.js";
+import { demoDataset } from "../fixtures";
 import {
   zShipment,
   zClient,
@@ -18,7 +18,7 @@ import {
   zNotification,
   zTenant,
   zUser,
-} from "../entities.js";
+} from "../entities";
 
 const FIXED_NOW = Date.UTC(2026, 8, 13, 9, 0, 0); // 13 Sep 2026 09:00 UTC
 

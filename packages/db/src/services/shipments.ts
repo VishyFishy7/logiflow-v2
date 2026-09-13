@@ -13,7 +13,7 @@ import {
   type ShipmentStatus,
 } from "@logiflow/contracts";
 import type { ShipmentDTO } from "@logiflow/contracts";
-import { ApiError } from "../errors.js";
+import { ApiError } from "../errors";
 
 // ── Re-export the transit-day table so callers get it from one place ────────
 

@@ -3,7 +3,7 @@
  * Adding a key is a one-line change reviewed by a human.
  */
 import { z } from "zod";
-import type { AuditSeverity } from "./enums.js";
+import type { AuditSeverity } from "./enums";
 
 export const AUDIT_ACTIONS = [
   // shipment

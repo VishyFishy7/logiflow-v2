@@ -11,7 +11,7 @@
  * The `reset()` function is exported for tests so the limiter state does not
  * leak across test cases.
  */
-import { ApiError } from "../errors.js";
+import { ApiError } from "../errors";
 
 interface Bucket {
   count: number;

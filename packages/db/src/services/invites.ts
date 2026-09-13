@@ -10,12 +10,12 @@
 import { eq, and, isNull, gt } from "drizzle-orm";
 import { newId, newInviteToken } from "@logiflow/shared";
 import type { Role } from "@logiflow/shared";
-import { db } from "../client.js";
-import { users, inviteTokens, tenants } from "../schema/index.js";
-import { ApiError } from "../errors.js";
-import { recordAudit } from "../audit.js";
-import type { Actor } from "../actor.js";
-import { hashPassword, checkPasswordStrength } from "./auth.js";
+import { db } from "../client";
+import { users, inviteTokens, tenants } from "../schema/index";
+import { ApiError } from "../errors";
+import { recordAudit } from "../audit";
+import type { Actor } from "../actor";
+import { hashPassword, checkPasswordStrength } from "./auth";
 
 // ── Constants ───────────────────────────────────────────────────────────────
 

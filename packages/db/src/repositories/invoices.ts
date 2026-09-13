@@ -45,24 +45,24 @@ type InvoiceListQuery = {
   page: number;
   pageSize: number;
 };
-import { db, type Executor } from "../client.js";
-import { ApiError } from "../errors.js";
-import { recordAudit, diffChanges } from "../audit.js";
-import type { Actor } from "../actor.js";
+import { db, type Executor } from "../client";
+import { ApiError } from "../errors";
+import { recordAudit, diffChanges } from "../audit";
+import type { Actor } from "../actor";
 import {
   clients,
   invoiceLines,
   invoices,
   shipments,
   users,
-} from "../schema/index.js";
-import { rowToInvoice, internalIdEnvelope } from "../mapping.js";
-import { mintInvoiceNumber } from "../services/sequences.js";
+} from "../schema/index";
+import { rowToInvoice, internalIdEnvelope } from "../mapping";
+import { mintInvoiceNumber } from "../services/sequences";
 import {
   assertValidTransition,
   isOverdue as checkOverdue,
   shouldFlagOverdue,
-} from "../services/invoices.js";
+} from "../services/invoices";
 
 type InvoiceRow = typeof invoices.$inferSelect;
 type InvoiceLineRow = typeof invoiceLines.$inferSelect;

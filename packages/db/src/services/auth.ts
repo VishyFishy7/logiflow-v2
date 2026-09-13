@@ -10,10 +10,10 @@
  */
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { eq, and } from "drizzle-orm";
-import { db } from "../client.js";
-import { users, tenants } from "../schema/index.js";
-import { ApiError } from "../errors.js";
-import { createSession, type SessionResult } from "./session.js";
+import { db } from "../client";
+import { users, tenants } from "../schema/index";
+import { ApiError } from "../errors";
+import { createSession, type SessionResult } from "./session";
 
 // ── Self-describing hash format ─────────────────────────────────────────────
 //

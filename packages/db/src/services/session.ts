@@ -17,11 +17,11 @@ import {
   type Permission,
 } from "@logiflow/shared";
 import type { ThemePreference, SessionResponse, NotificationPrefs } from "@logiflow/contracts";
-import { db, type Executor } from "../client.js";
-import { sessions, users, tenants } from "../schema/index.js";
-import { ApiError } from "../errors.js";
+import { db, type Executor } from "../client";
+import { sessions, users, tenants } from "../schema/index";
+import { ApiError } from "../errors";
 import { newId } from "@logiflow/shared";
-import type { Actor } from "../actor.js";
+import type { Actor } from "../actor";
 
 // ── Constants ───────────────────────────────────────────────────────────────
 

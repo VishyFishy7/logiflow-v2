@@ -23,8 +23,8 @@
  */
 import { eq, and, sql } from "drizzle-orm";
 import { newId, formatInvoiceNumber } from "@logiflow/shared";
-import { sequences } from "../schema/index.js";
-import type { Executor } from "../client.js";
+import { sequences } from "../schema/index";
+import type { Executor } from "../client";
 
 /**
  * Mint the next invoice number for a tenant in a given year.

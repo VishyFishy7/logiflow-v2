@@ -15,7 +15,7 @@ import {
   MASK_BULLET,
   REDACTED_LOG_PATHS,
   type MaskPolicy,
-} from "../mask.js";
+} from "../mask";
 
 // ── Policy: last2 (default for internal IDs) ────────────────────────────────
 describe("maskSecret — last2", () => {

@@ -4,7 +4,7 @@
  */
 import { z } from "zod";
 import { ROLES, PERMISSIONS } from "@logiflow/shared";
-import { DELAY_REASONS, LEAD_SOURCES, SERVICE_LEVELS } from "./enums.js";
+import { DELAY_REASONS, LEAD_SOURCES, SERVICE_LEVELS } from "./enums";
 import {
   zCarrierAdapterCode,
   zCarrierCode,
@@ -21,8 +21,8 @@ import {
   zShipmentStatus,
   zSyncState,
   zThemePreference,
-} from "./enums.js";
-import { zMaskPolicy } from "./common.js";
+} from "./enums";
+import { zMaskPolicy } from "./common";
 
 const zRole = z.enum(ROLES);
 const zPermission = z.enum(PERMISSIONS);

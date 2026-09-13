@@ -8,11 +8,11 @@
 import { and, eq, sql, asc, desc, like, or, type SQL } from "drizzle-orm";
 import { newId, permissionsFor, can, type Role } from "@logiflow/shared";
 import type { ListEnvelope } from "@logiflow/contracts";
-import { db, type Executor } from "../client.js";
-import { users, shipments } from "../schema/index.js";
-import { ApiError } from "../errors.js";
-import { recordAudit, diffChanges } from "../audit.js";
-import type { Actor } from "../actor.js";
+import { db, type Executor } from "../client";
+import { users, shipments } from "../schema/index";
+import { ApiError } from "../errors";
+import { recordAudit, diffChanges } from "../audit";
+import type { Actor } from "../actor";
 
 // ── Types ───────────────────────────────────────────────────────────────────
 

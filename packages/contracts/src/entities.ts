@@ -5,7 +5,7 @@
  */
 import { z } from "zod";
 import { ROLES, PERMISSIONS } from "@logiflow/shared";
-import { zMaskedValue, zPagination } from "./common.js";
+import { zMaskedValue, zPagination } from "./common";
 import {
   zAuditActorType,
   zAuditEntityType,
@@ -28,7 +28,7 @@ import {
   zSyncState,
   zTenantPlan,
   zThemePreference,
-} from "./enums.js";
+} from "./enums";
 
 const zRole = z.enum(ROLES);
 const zPermission = z.enum(PERMISSIONS);

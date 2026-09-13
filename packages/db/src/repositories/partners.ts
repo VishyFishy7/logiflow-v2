@@ -33,18 +33,18 @@ import {
   type ClientDTO,
   type ListEnvelope,
 } from "@logiflow/contracts";
-import { db } from "../client.js";
-import { ApiError } from "../errors.js";
-import { recordAudit, diffChanges } from "../audit.js";
-import type { Actor } from "../actor.js";
+import { db } from "../client";
+import { ApiError } from "../errors";
+import { recordAudit, diffChanges } from "../audit";
+import type { Actor } from "../actor";
 import {
   carriers,
   clients,
   invoices,
   shipments,
-} from "../schema/index.js";
-import { rowToCarrier, rowToClient } from "../mapping.js";
-import { validateClientFields, validateCarrierFields } from "../services/partners.js";
+} from "../schema/index";
+import { rowToCarrier, rowToClient } from "../mapping";
+import { validateClientFields, validateCarrierFields } from "../services/partners";
 
 /* ================================================================ clients === */
 

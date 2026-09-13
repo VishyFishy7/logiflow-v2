@@ -16,7 +16,7 @@ import {
   isValidPrefix,
   TRACKING_ALPHABET,
   TRACKING_BODY_LENGTH,
-} from "../tracking.js";
+} from "../tracking";
 
 // ── Alphabet rules ──────────────────────────────────────────────────────────
 describe("TRACKING_ALPHABET", () => {

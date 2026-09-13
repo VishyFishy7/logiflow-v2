@@ -16,11 +16,11 @@
 import { eq, and, isNull, desc, sql } from "drizzle-orm";
 import { newId } from "@logiflow/shared";
 import type { NotificationType, NotificationChannel, NotificationPrefs } from "@logiflow/contracts";
-import { notifications, notificationDeliveries, users } from "../schema/index.js";
-import { sendMail } from "./mail.js";
-import type { Executor } from "../client.js";
-import type { Actor } from "../actor.js";
-import { recordAudit } from "../audit.js";
+import { notifications, notificationDeliveries, users } from "../schema/index";
+import { sendMail } from "./mail";
+import type { Executor } from "../client";
+import type { Actor } from "../actor";
+import { recordAudit } from "../audit";
 
 // ── Default prefs (when a user hasn't configured) ───────────────────────────
 

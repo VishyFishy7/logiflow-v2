@@ -29,22 +29,22 @@ import {
   type LeadActivityDTO,
   type LeadActivityKind,
 } from "@logiflow/contracts";
-import { db } from "../client.js";
-import { ApiError } from "../errors.js";
-import { recordAudit, diffChanges } from "../audit.js";
+import { db } from "../client";
+import { ApiError } from "../errors";
+import { recordAudit, diffChanges } from "../audit";
 import {
   leadVisibility,
   scopeAllowsRow,
   type Actor,
-} from "../actor.js";
-import { clients, leads, leadActivities } from "../schema/index.js";
-import { rowToLead, rowToLeadActivity } from "../mapping.js";
-import { userNameMap } from "../repositories/users-read.js";
+} from "../actor";
+import { clients, leads, leadActivities } from "../schema/index";
+import { rowToLead, rowToLeadActivity } from "../mapping";
+import { userNameMap } from "../repositories/users-read";
 import {
   computeNextFollowUp,
   isTerminalLeadStatus,
   leadToClientMapping,
-} from "../services/leads.js";
+} from "../services/leads";
 
 /* ================================================================ list === */
 

@@ -1,8 +1,8 @@
 import { newId } from "@logiflow/shared";
 import type { AuditSeverity } from "@logiflow/contracts";
-import type { Executor } from "./client.js";
-import { auditEvents } from "./schema/index.js";
-import type { Actor, AuditActorRef } from "./actor.js";
+import type { Executor } from "./client";
+import { auditEvents } from "./schema/index";
+import type { Actor, AuditActorRef } from "./actor";
 
 export interface AuditEntry {
   action: string;

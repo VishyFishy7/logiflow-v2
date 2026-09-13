@@ -6,7 +6,7 @@
  * :param naming, and a count assertion.
  */
 import { describe, it, expect } from "vitest";
-import { API_ROUTES } from "../routes.js";
+import { API_ROUTES } from "../routes";
 import { PERMISSIONS } from "@logiflow/shared";
 import type { Permission } from "@logiflow/shared";
 

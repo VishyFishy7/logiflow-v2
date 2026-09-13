@@ -44,15 +44,15 @@ import {
   type SyncState,
   type CheckpointDTO,
 } from "@logiflow/contracts";
-import { db, type Executor } from "../client.js";
-import { ApiError } from "../errors.js";
-import { recordAudit, diffChanges } from "../audit.js";
+import { db, type Executor } from "../client";
+import { ApiError } from "../errors";
+import { recordAudit, diffChanges } from "../audit";
 import {
   andAll,
   shipmentScopeCondition,
   visibilityCondition,
   type Actor,
-} from "../actor.js";
+} from "../actor";
 import {
   carriers,
   checkpoints,
@@ -62,13 +62,13 @@ import {
   shipments,
   users,
   attachments,
-} from "../schema/index.js";
-import { rowToCheckpoint, rowToShipment } from "../mapping.js";
+} from "../schema/index";
+import { rowToCheckpoint, rowToShipment } from "../mapping";
 import {
   assertTransition,
   checkpointLabelForStatus,
   checkpointLocationForStatus,
-} from "../services/shipments.js";
+} from "../services/shipments";
 
 // ── Local types (bulk inputs not exported from contracts) ──────────────────
 

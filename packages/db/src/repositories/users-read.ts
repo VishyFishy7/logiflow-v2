@@ -4,9 +4,9 @@
  */
 import { eq } from "drizzle-orm";
 import type { UserRef } from "@logiflow/contracts";
-import { db } from "../client.js";
-import { users } from "../schema/index.js";
-import type { Actor } from "../actor.js";
+import { db } from "../client";
+import { users } from "../schema/index";
+import type { Actor } from "../actor";
 
 /** Bulk lookup: userId → name. Used to denormalise names into list rows. */
 export function userNameMap(tenantId: string): Map<string, string> {

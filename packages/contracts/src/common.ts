@@ -13,7 +13,7 @@ import {
   zLeadStatus,
   zShipmentStatus,
   zShipmentStatus as zShipmentStatusAlias,
-} from "./enums.js";
+} from "./enums";
 
 // ── Masking envelope ────────────────────────────────────────────────────────
 export const zMaskPolicy = z.enum(["last2", "first2_last2", "full", "none"]);

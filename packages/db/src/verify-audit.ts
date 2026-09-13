@@ -3,7 +3,7 @@
  * audit_events table are rejected by the SQLite triggers created in
  * the migration.
  */
-import { sqlite } from "./client.js";
+import { sqlite } from "./client";
 
 console.log("🔒 Verifying audit_events immutability...\n");
 

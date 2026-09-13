@@ -11,13 +11,13 @@
  */
 import { normaliseTrackingId } from "@logiflow/shared";
 import type { PublicTrackingResponse } from "@logiflow/contracts";
-import { db } from "../client.js";
-import { ApiError } from "../errors.js";
-import { recordAudit } from "../audit.js";
+import { db } from "../client";
+import { ApiError } from "../errors";
+import { recordAudit } from "../audit";
 import { and, eq, isNull } from "drizzle-orm";
-import { shipments, checkpoints, tenants, carriers } from "../schema/index.js";
-import { internalIdEnvelope, carrierIdEnvelope } from "../mapping.js";
-import type { Actor } from "../actor.js";
+import { shipments, checkpoints, tenants, carriers } from "../schema/index";
+import { internalIdEnvelope, carrierIdEnvelope } from "../mapping";
+import type { Actor } from "../actor";
 import type { MaskedValueDTO } from "@logiflow/contracts";
 
 /** §8.3 reveal response shape (matches zTrackingRevealResponse). */

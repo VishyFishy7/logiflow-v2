@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/better-sqlite3";
 import { dirname, resolve } from "node:path";
 import { mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import * as schema from "./schema/index.js";
+import * as schema from "./schema/index";
 
 /**
  * Single writer. `better-sqlite3` is synchronous, which is a feature here: a
@@ -24,19 +24,44 @@ const databaseUrl = process.env.DATABASE_URL ?? defaultPath;
 
 mkdirSync(dirname(databaseUrl), { recursive: true });
 
-export const sqlite = new Database(databaseUrl);
+let _sqlite: InstanceType<typeof Database> | null = null;
+export function getSqlite(): InstanceType<typeof Database> {
+  if (!_sqlite) {
+    _sqlite = new Database(databaseUrl);
+    _sqlite.pragma("journal_mode = WAL");
+    _sqlite.pragma("foreign_keys = ON");
+    _sqlite.pragma("busy_timeout = 5000");
+    _sqlite.pragma("synchronous = NORMAL");
+  }
+  return _sqlite;
+}
+export const sqlite: InstanceType<typeof Database> = new Proxy({} as InstanceType<typeof Database>, {
+  get(_t, prop) {
+    const s = getSqlite();
+    const v = (s as unknown as Record<string, unknown>)[prop as string];
+    return typeof v === "function" ? (v as (...a: unknown[]) => unknown).bind(s) : v;
+  },
+  set(_t, prop, value) {
+    (getSqlite() as unknown as Record<string, unknown>)[prop as string] = value;
+    return true;
+  },
+});
 
-// WAL keeps readers (dashboards, the public tracking page) from blocking the
-// writer; foreign keys are off by default in SQLite and must be asserted.
-sqlite.pragma("journal_mode = WAL");
-sqlite.pragma("foreign_keys = ON");
-sqlite.pragma("busy_timeout = 5000");
-sqlite.pragma("synchronous = NORMAL");
+let _db: ReturnType<typeof drizzle> | null = null;
+function getDbInternal(): ReturnType<typeof drizzle> {
+  if (!_db) _db = drizzle(getSqlite(), { schema });
+  return _db;
+}
+export const db: ReturnType<typeof drizzle> = new Proxy({} as ReturnType<typeof drizzle>, {
+  get(_t, prop) {
+    const d = getDbInternal();
+    const v = (d as unknown as Record<string, unknown>)[prop as string];
+    return typeof v === "function" ? (v as (...a: unknown[]) => unknown).bind(d) : v;
+  },
+});
 
-export const db = drizzle(sqlite, { schema });
-
-export type Db = typeof db;
-export type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
+export type Db = ReturnType<typeof drizzle>;
+export type Tx = Parameters<Parameters<ReturnType<typeof drizzle>["transaction"]>[0]>[0];
 /** Repositories accept either the pool or an open transaction. */
 export type Executor = Db | Tx;
 
@@ -44,6 +69,6 @@ export { schema };
 
 
 /** Return the singleton drizzle client. */
-export function getDb(): typeof db {
-  return db;
+export function getDb(): ReturnType<typeof drizzle> {
+  return getDbInternal();
 }

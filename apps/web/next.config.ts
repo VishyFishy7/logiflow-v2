@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
     // Lint is its own gate (`pnpm lint`), not a build blocker.
     ignoreDuringBuilds: true,
   },
+  webpack: (config) => {
+    config.externals = config.externals || [];
+    config.externals.push("better-sqlite3");
+    return config;
+  },
 };
 
 export default nextConfig;

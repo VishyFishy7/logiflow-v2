@@ -12,10 +12,10 @@ import { readFileSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 
-import * as schema from "../schema/index.js";
-import { shipments, checkpoints, auditEvents, clients, users, carriers } from "../schema/index.js";
-import { recordAudit } from "../audit.js";
-import { assertTransition } from "../services/shipments.js";
+import * as schema from "../schema/index";
+import { shipments, checkpoints, auditEvents, clients, users, carriers } from "../schema/index";
+import { recordAudit } from "../audit";
+import { assertTransition } from "../services/shipments";
 import { SHIPMENT_STATUS_ORDER, type ShipmentStatus } from "@logiflow/contracts";
 import { newId } from "@logiflow/shared";
 

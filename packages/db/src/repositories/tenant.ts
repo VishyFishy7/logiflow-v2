@@ -8,12 +8,12 @@
 import { eq, and, sql } from "drizzle-orm";
 import { isValidPrefix } from "@logiflow/shared";
 import type { BrandPreview } from "@logiflow/contracts";
-import { db, type Executor } from "../client.js";
-import { tenants, shipments } from "../schema/index.js";
-import { ApiError } from "../errors.js";
-import { recordAudit, diffChanges } from "../audit.js";
-import type { Actor } from "../actor.js";
-import { isValidHexColour, isValidTimezone } from "../services/settings.js";
+import { db, type Executor } from "../client";
+import { tenants, shipments } from "../schema/index";
+import { ApiError } from "../errors";
+import { recordAudit, diffChanges } from "../audit";
+import type { Actor } from "../actor";
+import { isValidHexColour, isValidTimezone } from "../services/settings";
 
 // ── Read ────────────────────────────────────────────────────────────────────
 
