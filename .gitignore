@@ -13,3 +13,5 @@ test-results/
 *.tsbuildinfo
 data/*.db
 apps/web/data/exports/
+data/*.db-shm
+data/*.db-wal
