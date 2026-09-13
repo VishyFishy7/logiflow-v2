@@ -4,7 +4,7 @@
  * Re-exports the client, error types, actor, audit, mapping helpers,
  * and key repository/service functions that route handlers need.
  */
-export { db, getDb, type Db, type Tx, type Executor } from "./client";
+export { db, getDb, getSqlite, sqlite, type Db, type Tx, type Executor } from "./client";
 export { ApiError, notFound, validationFailed } from "./errors";
 export { type Actor, type AuditActorRef, systemActor, decideScope } from "./actor";
 export { recordAudit, diffChanges, type AuditEntry } from "./audit";
