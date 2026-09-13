@@ -1,0 +1,13 @@
+node_modules/
+.next/
+dist/
+.tmp/
+data/*.db
+data/*.db-journal
+data/mail/
+storage/
+.env
+.env.local
+playwright-report/
+test-results/
+*.tsbuildinfo

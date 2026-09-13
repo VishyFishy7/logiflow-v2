@@ -1,0 +1,328 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+ * LogiFlow v2 — token layer (PRD §12.3, §12.4)
+ *
+ * Rules this file exists to enforce:
+ *  - base palette is neutral (zinc family) in both themes;
+ *  - the accent is SKY BLUE; green appears only as a success/status colour;
+ *  - no component ever contains a hex value or a raw palette class
+ *    (`bg-zinc-100`). Components use semantic utilities (`bg-muted`) or
+ *    token-backed arbitrary values (`bg-[var(--status-delayed-bg)]`).
+ *  - tenant white-label overrides (§6.3) are injected at render time as a
+ *    `:root` / `.dark` override block, so no component is ever touched.
+ * ------------------------------------------------------------------------- */
+
+/* Class-based dark mode: `next-themes` puts `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --radius: 10px;
+  --radius-control: 8px;
+
+  /* Neutral zinc surface ---------------------------------------------------- */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+
+  /* Accent = sky blue (never green) ---------------------------------------- */
+  --primary: oklch(0.588 0.158 241.966);
+  --primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.588 0.158 241.966);
+
+  /* Elevation: two levels only (§12.5) ------------------------------------- */
+  --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.05), 0 1px 3px 0 oklch(0 0 0 / 0.04);
+  --shadow-lg: 0 10px 30px -8px oklch(0 0 0 / 0.18), 0 2px 8px -2px oklch(0 0 0 / 0.08);
+
+  /* Charts ------------------------------------------------------------------ */
+  --chart-1: oklch(0.588 0.158 241.966);
+  --chart-2: oklch(0.606 0.25 292.717);
+  --chart-3: oklch(0.681 0.162 75.834);
+  --chart-4: oklch(0.696 0.17 162.48);
+  --chart-5: oklch(0.645 0.246 16.439);
+
+  /* Sidebar ----------------------------------------------------------------- */
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-primary: oklch(0.588 0.158 241.966);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.588 0.158 241.966);
+
+  /* Shipment status (§12.4 — dual-theme token pairs) ------------------------ */
+  --status-pickup: #7c3aed;
+  --status-pickup-bg: #ede9fe;
+  --status-warehouse: #0284c7;
+  --status-warehouse-bg: #e0f2fe;
+  --status-in-transit: #b45309;
+  --status-in-transit-bg: #fef3c7;
+  --status-delivered: #047857;
+  --status-delivered-bg: #d1fae5;
+  --status-delayed: #b91c1c;
+  --status-delayed-bg: #fee2e2;
+
+  /* Lead status ------------------------------------------------------------ */
+  --status-new: #475569;
+  --status-new-bg: #f1f5f9;
+  --status-contacted: #0284c7;
+  --status-contacted-bg: #e0f2fe;
+  --status-negotiation: #b45309;
+  --status-negotiation-bg: #fef3c7;
+  --status-won: #047857;
+  --status-won-bg: #d1fae5;
+  --status-lost: #9f1239;
+  --status-lost-bg: #ffe4e6;
+
+  /* Invoice status --------------------------------------------------------- */
+  --status-paid: #047857;
+  --status-paid-bg: #d1fae5;
+  --status-pending: #b45309;
+  --status-pending-bg: #fef3c7;
+  --status-overdue: #b91c1c;
+  --status-overdue-bg: #fee2e2;
+
+  /* Audit severity --------------------------------------------------------- */
+  --severity-info: #475569;
+  --severity-info-bg: #f1f5f9;
+  --severity-warn: #b45309;
+  --severity-warn-bg: #fef3c7;
+  --severity-error: #b91c1c;
+  --severity-error-bg: #fee2e2;
+
+  /* "Awaiting carrier ID" is its own operational state, not a shipment
+     status (§14.3 filter set) — it needs a token so it is never a hex. */
+  --status-awaiting-carrier: #7c3aed;
+  --status-awaiting-carrier-bg: #ede9fe;
+}
+
+.dark {
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --primary: oklch(0.685 0.169 237.323);
+  --primary-foreground: oklch(0.141 0.005 285.823);
+  --ring: oklch(0.685 0.169 237.323);
+
+  --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.4);
+  --shadow-lg: 0 12px 34px -10px oklch(0 0 0 / 0.7), 0 2px 10px -2px oklch(0 0 0 / 0.5);
+
+  --chart-1: oklch(0.685 0.169 237.323);
+  --chart-2: oklch(0.709 0.159 293.541);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.765 0.177 163.223);
+  --chart-5: oklch(0.712 0.194 13.428);
+
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.685 0.169 237.323);
+  --sidebar-primary-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.685 0.169 237.323);
+
+  --status-pickup: #c4b5fd;
+  --status-pickup-bg: #2e1065;
+  --status-warehouse: #7dd3fc;
+  --status-warehouse-bg: #082f49;
+  --status-in-transit: #fcd34d;
+  --status-in-transit-bg: #451a03;
+  --status-delivered: #6ee7b7;
+  --status-delivered-bg: #022c22;
+  --status-delayed: #fda4af;
+  --status-delayed-bg: #4c0519;
+
+  --status-new: #cbd5e1;
+  --status-new-bg: #1e293b;
+  --status-contacted: #7dd3fc;
+  --status-contacted-bg: #082f49;
+  --status-negotiation: #fcd34d;
+  --status-negotiation-bg: #451a03;
+  --status-won: #6ee7b7;
+  --status-won-bg: #022c22;
+  --status-lost: #fda4af;
+  --status-lost-bg: #4c0519;
+
+  --status-paid: #6ee7b7;
+  --status-paid-bg: #022c22;
+  --status-pending: #fcd34d;
+  --status-pending-bg: #451a03;
+  --status-overdue: #fda4af;
+  --status-overdue-bg: #4c0519;
+
+  --severity-info: #cbd5e1;
+  --severity-info-bg: #1e293b;
+  --severity-warn: #fcd34d;
+  --severity-warn-bg: #451a03;
+  --severity-error: #fda4af;
+  --severity-error-bg: #4c0519;
+
+  --status-awaiting-carrier: #c4b5fd;
+  --status-awaiting-carrier-bg: #2e1065;
+}
+
+/* Map the semantic set onto Tailwind utilities (§12.3). */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius-control) - 2px);
+  --radius-md: var(--radius-control);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo,
+    Consolas, "Liberation Mono", monospace;
+
+  /* Type scale (§12.5): 12 / 13 / 14 / 16 / 20 / 24 / 30 / 38 */
+  --text-2xs: 12px;
+  --text-2xs--line-height: 16px;
+  --text-xs: 13px;
+  --text-xs--line-height: 18px;
+  --text-sm: 14px;
+  --text-sm--line-height: 20px;
+  --text-base: 16px;
+  --text-base--line-height: 24px;
+  --text-xl: 20px;
+  --text-xl--line-height: 28px;
+  --text-2xl: 24px;
+  --text-2xl--line-height: 32px;
+  --text-3xl: 30px;
+  --text-3xl--line-height: 38px;
+  --text-4xl: 38px;
+  --text-4xl--line-height: 46px;
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-lg: var(--shadow-lg);
+
+  /* Spectrum's motion presets (§3.2 #5) — reuse, never invent an easing. */
+  --ease-spectrum: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    font-variation-settings: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Focus is never removed (§12.6): a 2px offset ring, visible in both themes. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--primary) 26%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Identifiers, IPs, action keys and invoice numbers are monospaced (§3.5). */
+  .font-identifier {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  /* Numbers in tables line up down the column (§12.7). */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* iOS home-indicator / tab-bar safe area (§13.2). */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .mb-safe {
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}

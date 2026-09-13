@@ -1,0 +1,58 @@
+{
+  "name": "@logiflow/db",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts",
+    "./client": "./src/client.ts",
+    "./actor": "./src/actor.ts",
+    "./audit": "./src/audit.ts",
+    "./errors": "./src/errors.ts",
+    "./mapping": "./src/mapping.ts",
+    "./export-snapshot": "./src/export-snapshot.ts",
+    "./repositories/shipments": "./src/repositories/shipments.ts",
+    "./repositories/users": "./src/repositories/users.ts",
+    "./repositories/audit": "./src/repositories/audit.ts",
+    "./repositories/leads": "./src/repositories/leads.ts",
+    "./repositories/invoices": "./src/repositories/invoices.ts",
+    "./repositories/partners": "./src/repositories/partners.ts",
+    "./repositories/tenant": "./src/repositories/tenant.ts",
+    "./repositories/stats": "./src/repositories/stats.ts",
+    "./services/auth": "./src/services/auth.ts",
+    "./services/session": "./src/services/session.ts",
+    "./services/notifications": "./src/services/notifications.ts",
+    "./services/tracking": "./src/services/tracking.ts",
+    "./services/settings": "./src/services/settings.ts",
+    "./services/idempotency": "./src/services/idempotency.ts",
+    "./services/mail": "./src/services/mail.ts",
+    "./services/partners": "./src/services/partners.ts",
+    "./services/leads": "./src/services/leads.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "migrate": "tsx src/migrate.ts",
+    "seed": "tsx src/seed.ts",
+    "setup": "tsx src/migrate.ts && tsx src/seed.ts",
+    "reset": "tsx src/reset.ts",
+    "worker": "tsx src/worker.ts",
+    "export": "tsx src/export.ts",
+    "fixtures": "tsx src/fixtures.ts",
+    "verify:audit": "tsx src/verify-audit.ts"
+  },
+  "dependencies": {
+    "@logiflow/contracts": "workspace:*",
+    "@logiflow/shared": "workspace:*",
+    "better-sqlite3": "^11.8.1",
+    "drizzle-orm": "^0.38.4"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "drizzle-kit": "^0.30.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

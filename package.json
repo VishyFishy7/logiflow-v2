@@ -1,0 +1,36 @@
+{
+  "name": "logiflow-v2",
+  "private": true,
+  "version": "2.0.0",
+  "description": "LogiFlow v2 — multi-tenant B2B logistics operations platform (Five Logistics pilot)",
+  "packageManager": "pnpm@12.4.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "cross-env NEXT_PUBLIC_API_MODE=mock pnpm --filter web dev",
+    "dev:live": "cross-env NEXT_PUBLIC_API_MODE=live pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "start": "pnpm --filter web start",
+    "lint": "pnpm --filter web lint",
+    "typecheck": "pnpm -r typecheck",
+    "db:generate": "pnpm --filter @logiflow/db generate",
+    "db:migrate": "pnpm --filter @logiflow/db migrate",
+    "db:seed": "pnpm --filter @logiflow/db seed",
+    "db:setup": "pnpm --filter @logiflow/db setup",
+    "db:export": "pnpm --filter @logiflow/db export",
+    "db:fixtures": "pnpm --filter @logiflow/db fixtures",
+    "worker": "pnpm --filter @logiflow/db worker",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "contracts:openapi": "pnpm --filter @logiflow/contracts openapi"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "cross-env": "^7.0.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3",
+    "vitest": "^3.0.5"
+  }
+}

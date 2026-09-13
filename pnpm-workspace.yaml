@@ -1,0 +1,14 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# pnpm 12 blocks postinstall scripts by default and reads the allowlist from this
+# file under `allowBuilds` — the `pnpm` key in package.json and the older
+# `onlyBuiltDependencies` key are both ignored. These are the only packages here
+# that build a native or prebuilt artifact. If a new native dependency is added
+# (argon2, sharp, …) run `pnpm approve-builds --all` once — see PRD §19 #1.
+allowBuilds:
+  better-sqlite3: true
+  esbuild: true
+  msw: true
+  unrs-resolver: true
