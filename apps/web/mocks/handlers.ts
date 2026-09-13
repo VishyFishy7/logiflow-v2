@@ -35,7 +35,7 @@ import * as store from "./store";
 
 // ── Constants ────────────────────────────────────────────────────────────
 
-const API_PREFIX = "http://localhost/api/v1";
+const API_PREFIX = "/api/v1";
 const MOCK_VERSION = "2.0.0";
 
 // ── Helpers ──────────────────────────────────────────────────────────────
@@ -572,6 +572,50 @@ export const handlers = [
         date: new Date(store.getStore().now - i * 86_400_000).toISOString().slice(0, 10),
         count: Math.floor(Math.random() * 20),
       })),
+      // Analytics extensions (zAnalyticsStats)
+      carrierPerformance: (() => {
+        const carriers = store.readCarriers();
+        const carrierMap = new Map(carriers.map((c) => [c.id, c]));
+        const grouped = new Map<string, { carrierId: string; shipments: number; onTime: number; delayed: number; transitHours: number[] }>();
+        for (const s of shipments) {
+          const key = s.carrier.id;
+          if (!grouped.has(key)) grouped.set(key, { carrierId: key, shipments: 0, onTime: 0, delayed: 0, transitHours: [] });
+          const g = grouped.get(key)!;
+          g.shipments++;
+          if (s.status === "delayed") g.delayed++;
+          if (s.status === "delivered" && s.deliveredAt && s.expectedDelivery && s.deliveredAt <= s.expectedDelivery) g.onTime++;
+          if (s.deliveredAt && s.createdAt) g.transitHours.push((s.deliveredAt - s.createdAt) / 3_600_000);
+        }
+        return Array.from(grouped.values())
+          .map((g) => ({ carrierId: g.carrierId, carrier: carrierMap.get(g.carrierId)?.name ?? "Unknown", shipments: g.shipments, onTime: g.onTime, delayed: g.delayed, avgTransitHours: g.transitHours.length > 0 ? Math.round(g.transitHours.reduce((a: number, b: number) => a + b, 0) / g.transitHours.length * 10) / 10 : 0 }))
+          .sort((a, b) => b.shipments - a.shipments);
+      })(),
+      clientVolume: (() => {
+        const clients = store.readClients();
+        const clientMap = new Map(clients.map((c) => [c.id, c]));
+        const grouped = new Map<string, { clientId: string; shipments: number }>();
+        for (const s of shipments) {
+          const key = s.client.id;
+          if (!grouped.has(key)) grouped.set(key, { clientId: key, shipments: 0 });
+          grouped.get(key)!.shipments++;
+        }
+        return Array.from(grouped.values())
+          .map((g) => ({ clientId: g.clientId, client: clientMap.get(g.clientId)?.name ?? "Unknown", shipments: g.shipments }))
+          .sort((a, b) => b.shipments - a.shipments);
+      })(),
+      clientRevenue: (() => {
+        const clients = store.readClients();
+        const clientMap = new Map(clients.map((c) => [c.id, c]));
+        const grouped = new Map<string, { clientId: string; revenuePaise: number }>();
+        for (const inv of invoices) {
+          const key = inv.client.id;
+          if (!grouped.has(key)) grouped.set(key, { clientId: key, revenuePaise: 0 });
+          grouped.get(key)!.revenuePaise += inv.totalPaise;
+        }
+        return Array.from(grouped.values())
+          .map((g) => ({ clientId: g.clientId, client: clientMap.get(g.clientId)?.name ?? "Unknown", revenuePaise: g.revenuePaise }))
+          .sort((a, b) => b.revenuePaise - a.revenuePaise);
+      })(),
       // Partial failure for dashboard (§14.2)
       ...(failHeader
         ? {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
-import { markAllRead } from "@logiflow/db";
+import { markAllRead } from "@/lib/db-lazy";
 import { getDb } from "@/lib/db";
 
 export const runtime = "nodejs";

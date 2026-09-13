@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
 import { zShipmentBulkAssignInput } from "@logiflow/contracts";
-import { bulkAssign } from "@logiflow/db";
+import { bulkAssign } from "@/lib/db-lazy";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

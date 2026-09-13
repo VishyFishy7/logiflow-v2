@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
 import { zTeamUpdateInput } from "@logiflow/contracts";
-import { changeRole, deactivateUser } from "@logiflow/db";
+import { changeRole, deactivateUser } from "@/lib/db-lazy";
 import type { Role } from "@logiflow/shared";
 
 export const runtime = "nodejs";

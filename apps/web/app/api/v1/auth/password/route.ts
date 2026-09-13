@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
 import { zChangePasswordInput } from "@logiflow/contracts";
-import { verifyPassword, hashPassword, getDb, users } from "@logiflow/db";
+import { verifyPassword, hashPassword, getDb, users } from "@/lib/db-lazy";
 import { eq } from "drizzle-orm";
 
 export const runtime = "nodejs";

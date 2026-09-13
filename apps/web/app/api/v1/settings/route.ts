@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
-import { getTenant } from "@logiflow/db";
+import { getTenant } from "@/lib/db-lazy";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

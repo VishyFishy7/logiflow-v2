@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
-import { listNotifications } from "@logiflow/db";
+import { listNotifications } from "@/lib/db-lazy";
 import { getDb } from "@/lib/db";
 
 export const runtime = "nodejs";

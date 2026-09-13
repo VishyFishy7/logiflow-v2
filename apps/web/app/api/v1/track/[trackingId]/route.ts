@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
-import { lookupPublicTracking, type BrandResolver, getDb, tenants } from "@logiflow/db";
+import { lookupPublicTracking, type BrandResolver, getDb, tenants } from "@/lib/db-lazy";
 import { eq } from "drizzle-orm";
 
 export const runtime = "nodejs";

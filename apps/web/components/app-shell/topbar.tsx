@@ -108,7 +108,7 @@ export function Topbar() {
         </Button>
 
         <Can permission={["shipment:create"]} role={role} fallback={null}>
-          <Button size="sm" className="hidden md:inline-flex" render={<Link href="/shipments/new" />}>
+          <Button size="sm" className="hidden md:inline-flex" nativeButton={false} render={<Link href="/shipments/new" />}>
             <Plus className="size-3.5" />
             New shipment
           </Button>

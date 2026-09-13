@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
 import { zAuditListQuery } from "@logiflow/contracts";
-import { listAuditEvents } from "@logiflow/db";
+import { listAuditEvents } from "@/lib/db-lazy";
 import { toCsv, type CsvColumn } from "@logiflow/shared";
 import type { AuditEventDTO } from "@logiflow/contracts";
 

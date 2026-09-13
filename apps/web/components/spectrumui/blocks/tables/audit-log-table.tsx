@@ -1,58 +1,50 @@
 'use client';
 
 import * as React from 'react';
-import { DataTable, type DataTableColumn } from '@/components/spectrumui/data-table';
+import { DataTable, type DataTableColumn, type DataTableSort } from '@/components/spectrumui/data-table';
+import { StatusBadge } from '@/components/shared/status-badge';
+import type { AuditEventDTO } from '@logiflow/contracts';
+import { auditTime } from '@/lib/format';
+import { cn } from '@/lib/utils';
 
-type Level = 'info' | 'warn' | 'error';
+// ── Diff / metadata rendering ──────────────────────────────────────────────
 
-interface AuditEvent {
-  id: string;
-  time: string;
-  actor: string;
-  avatar: string | null;
-  action: string;
-  target: string;
-  ip: string;
-  level: Level;
+type AuditChanges = Record<string, { from?: unknown; to?: unknown }> | null | undefined;
+
+function DiffValue({ label, from, to }: { label: string; from: unknown; to: unknown }) {
+  return (
+    <div className="flex items-start gap-2 text-[12px]">
+      <span className="shrink-0 text-muted-foreground font-medium min-w-[60px]">{label}</span>
+      <span className="text-[var(--severity-error)] line-through decoration-1">
+        {String(from ?? '—')}
+      </span>
+      <span aria-hidden className="text-muted-foreground">→</span>
+      <span className="text-[var(--severity-info)]">{String(to ?? '—')}</span>
+    </div>
+  );
 }
 
-const ACTORS: { name: string; avatar: string | null }[] = [
-  { name: 'Freya Lindgren', avatar: '/avatars/people/01.jpg' },
-  { name: 'ops-bot', avatar: null },
-  { name: 'Mateo Alvarez', avatar: '/avatars/people/03.jpg' },
-  { name: 'Aiko Watanabe', avatar: '/avatars/people/06.jpg' },
-  { name: 'ci-runner', avatar: null },
-  { name: 'Zara Osei', avatar: '/avatars/people/12.jpg' },
-];
+function ChangesSummary({ changes }: { changes: AuditChanges }) {
+  if (!changes || typeof changes !== 'object') return null;
+  const entries = Object.entries(changes).slice(0, 3);
+  const remaining = Object.keys(changes).length - entries.length;
+  return (
+    <div className="mt-1.5 space-y-0.5">
+      {entries.map(([field, { from, to }]) => (
+        <DiffValue key={field} label={field} from={from} to={to} />
+      ))}
+      {remaining > 0 && (
+        <span className="text-[11px] text-muted-foreground">
+          +{remaining} more {remaining === 1 ? 'field' : 'fields'}
+        </span>
+      )}
+    </div>
+  );
+}
 
-const ACTIONS = [
-  'member.invited',
-  'key.rotated',
-  'billing.plan_changed',
-  'webhook.retried',
-  'sso.enforced',
-  'export.requested',
-  'session.revoked',
-  'role.granted',
-];
+// ── Severity display ───────────────────────────────────────────────────────
 
-const TARGETS = ['workspace/driftlab', 'org/keelworks', 'project/atlas', 'team/platform'];
-
-const EVENTS: AuditEvent[] = Array.from({ length: 28 }, (_, index) => {
-  const minute = 56 - index * 2;
-  const hour = 15 + Math.floor(minute / 60);
-  const actor = ACTORS[index % ACTORS.length];
-  return {
-    id: `ev_${7200 - index}`,
-    time: `${String(hour).padStart(2, '0')}:${String(((minute % 60) + 60) % 60).padStart(2, '0')}`,
-    actor: actor.name,
-    avatar: actor.avatar,
-    action: ACTIONS[index % ACTIONS.length],
-    target: TARGETS[index % TARGETS.length],
-    ip: `203.0.113.${(index * 13) % 255}`,
-    level: index % 13 === 4 ? 'error' : index % 6 === 2 ? 'warn' : 'info',
-  };
-});
+type Level = 'info' | 'warn' | 'error';
 
 const LEVEL_STYLE: Record<Level, string> = {
   info: 'text-neutral-500 dark:text-neutral-400',
@@ -60,94 +52,153 @@ const LEVEL_STYLE: Record<Level, string> = {
   error: 'text-rose-700 dark:text-rose-300',
 };
 
-const columns: DataTableColumn<AuditEvent>[] = [
-  {
-    id: 'time',
-    header: 'Time',
-    sortable: true,
-    value: (row) => row.time,
-    cell: (row) => <span className="tabular-nums">{row.time}</span>,
-  },
-  {
-    id: 'actor',
-    header: 'Actor',
-    sortable: true,
-    value: (row) => row.actor,
-    cell: (row) => (
-      <span className="flex items-center gap-2 font-normal">
-        {row.avatar ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src={row.avatar}
-            alt=""
-            loading="lazy"
-            width={20}
-            height={20}
-            className="size-5 shrink-0 rounded-full object-cover outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10"
-          />
-        ) : (
-          <span
-            aria-hidden="true"
-            className="grid size-5 shrink-0 place-items-center rounded-full bg-neutral-100 font-mono text-[9px] text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400"
-          >
-            {'>_'}
-          </span>
-        )}
-        <span className="truncate">{row.actor}</span>
-      </span>
-    ),
-  },
-  {
-    id: 'action',
-    header: 'Action',
-    sortable: true,
-    value: (row) => row.action,
-    cell: (row) => <span className="font-mono text-xs">{row.action}</span>,
-  },
-  { id: 'target', header: 'Target', hideBelow: 'lg', value: (row) => row.target },
-  {
-    id: 'ip',
-    header: 'IP',
-    hideBelow: 'md',
-    value: (row) => row.ip,
-    cell: (row) => <span className="font-mono text-xs">{row.ip}</span>,
-  },
-  {
-    id: 'level',
-    header: 'Level',
-    sortable: true,
-    value: (row) => row.level,
-    cell: (row) => (
-      <span className={`inline-flex items-center gap-1.5 font-medium ${LEVEL_STYLE[row.level]}`}>
-        <span aria-hidden="true" className="size-1.5 rounded-full bg-current" />
-        {row.level}
-      </span>
-    ),
-  },
-];
+// ── Actor display ──────────────────────────────────────────────────────────
 
-export function AuditLogTable({ variant = 'Pinned' }: { variant?: 'Pinned' | 'Paged' }) {
+function ActorCell({ event }: { event: AuditEventDTO }) {
+  return (
+    <span className="flex items-center gap-2 font-normal">
+      {event.actorAvatarUrl ? (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          src={event.actorAvatarUrl}
+          alt=""
+          loading="lazy"
+          width={20}
+          height={20}
+          className="size-5 shrink-0 rounded-full object-cover outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10"
+        />
+      ) : (
+        <span
+          aria-hidden="true"
+          className="grid size-5 shrink-0 place-items-center rounded-full bg-neutral-100 font-mono text-[9px] text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400"
+        >
+          {'>_'}
+        </span>
+      )}
+      <span className="truncate">{event.actorName}</span>
+    </span>
+  );
+}
+
+// ── Props ──────────────────────────────────────────────────────────────────
+
+export interface AuditLogTableProps {
+  events: AuditEventDTO[];
+  loading?: boolean;
+  /** Pinned variant renders with sticky header and a max height; Paged is standard. */
+  variant?: 'Pinned' | 'Paged';
+  /** Rows per page for the Paged variant. */
+  pageSize?: number;
+  /** External sort state (from URL) */
+  sort?: DataTableSort;
+  /** External sort change handler */
+  onSortChange?: (sort: DataTableSort | null) => void;
+  className?: string;
+}
+
+// ── Columns ────────────────────────────────────────────────────────────────
+
+function buildColumns(): DataTableColumn<AuditEventDTO>[] {
+  return [
+    {
+      id: 'occurredAt',
+      header: 'Time',
+      sortable: true,
+      value: (row) => row.occurredAt,
+      cell: (row) => (
+        <span className="tabular-nums text-[13px]">{auditTime(row.occurredAt)}</span>
+      ),
+    },
+    {
+      id: 'actorName',
+      header: 'Actor',
+      sortable: true,
+      value: (row) => row.actorName,
+      cell: (_row, _index) => <ActorCell event={_row} />,
+    },
+    {
+      id: 'action',
+      header: 'Action',
+      sortable: true,
+      value: (row) => row.action,
+      cell: (row) => (
+        <div>
+          <span className="font-mono text-xs">{row.action}</span>
+          {row.summary && (
+            <p className="text-[12px] text-muted-foreground mt-0.5 line-clamp-1">{row.summary}</p>
+          )}
+          <ChangesSummary changes={row.changes} />
+        </div>
+      ),
+    },
+    {
+      id: 'entityLabel',
+      header: 'Target',
+      hideBelow: 'lg',
+      value: (row) => row.entityLabel,
+      cell: (row) => (
+        <div className="flex flex-col">
+          <span className="truncate text-[13px]">{row.entityLabel}</span>
+          <span className="text-[11px] text-muted-foreground font-mono">{row.entityType}</span>
+        </div>
+      ),
+    },
+    {
+      id: 'ip',
+      header: 'IP',
+      hideBelow: 'md',
+      value: (row) => row.ip ?? '',
+      cell: (row) => (
+        <span className="font-mono text-xs text-muted-foreground">{row.ip ?? '—'}</span>
+      ),
+    },
+    {
+      id: 'severity',
+      header: 'Level',
+      sortable: true,
+      value: (row) => row.severity,
+      cell: (row) => (
+        <StatusBadge kind="severity" value={row.severity} size="sm" />
+      ),
+    },
+  ];
+}
+
+// ── Component ──────────────────────────────────────────────────────────────
+
+export function AuditLogTable({
+  events,
+  loading = false,
+  variant = 'Paged',
+  pageSize = 8,
+  sort: sortProp,
+  onSortChange,
+  className,
+}: AuditLogTableProps) {
   const pinned = variant === 'Pinned';
+  const columns = React.useMemo(() => buildColumns(), []);
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6">
+    <div className={cn('w-full', className)}>
       <DataTable
-        data={EVENTS}
+        data={events}
         columns={columns}
         rowId={(row) => row.id}
-        rowLabel={(row) => `${row.action} at ${row.time}`}
-        caption="Audit events for this workspace, newest first."
+        rowLabel={(row) => `${row.action} — ${row.entityLabel}`}
+        caption="Audit events, newest first."
         variant="bordered"
         density="compact"
-        searchable
-        searchPlaceholder="Search events"
-        quickFilter={{ columnId: 'level', label: 'Filter by level' }}
+        loading={loading}
+        skeletonRows={pageSize}
         resizableColumns
         pinFirstColumn
         stickyHeader={pinned}
         maxHeight={pinned ? 340 : undefined}
-        pageSize={pinned ? undefined : 8}
-        defaultSort={{ columnId: 'time', direction: 'desc' }}
+        pageSize={pinned ? undefined : pageSize}
+        defaultSort={{ columnId: 'occurredAt', direction: 'desc' }}
+        sort={sortProp}
+        onSortChange={onSortChange}
+        keyboardNavigation
       />
     </div>
   );

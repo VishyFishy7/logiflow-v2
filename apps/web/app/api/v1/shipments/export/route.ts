@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
 import { zShipmentListQuery } from "@logiflow/contracts";
-import { shipmentsCsv } from "@logiflow/db";
+import { shipmentsCsv } from "@/lib/db-lazy";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

@@ -1,4 +1,4 @@
-import { hashPassword, createUser } from "@logiflow/db";
+import { hashPassword, createUser } from "@/lib/db-lazy";
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
 import { zTeamInviteInput } from "@logiflow/contracts";

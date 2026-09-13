@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
 import { zTrackingSettingsInput } from "@logiflow/contracts";
-import { updateTrackingSettings } from "@logiflow/db";
+import { updateTrackingSettings } from "@/lib/db-lazy";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

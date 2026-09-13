@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { zSignupInput } from "@logiflow/contracts";
-import { hashPassword, getDb, users, tenants } from "@logiflow/db";
+import { hashPassword, getDb, users, tenants } from "@/lib/db-lazy";
 import { newId } from "@logiflow/shared";
 import { eq } from "drizzle-orm";
 

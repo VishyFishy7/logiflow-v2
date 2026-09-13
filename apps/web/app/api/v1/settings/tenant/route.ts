@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/guard";
 import { zTenantUpdateInput } from "@logiflow/contracts";
-import { getDb, tenants } from "@logiflow/db";
+import { getDb, tenants } from "@/lib/db-lazy";
 import { eq } from "drizzle-orm";
 
 export const runtime = "nodejs";

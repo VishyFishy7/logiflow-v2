@@ -1,4 +1,3 @@
-import { recordAudit, type Actor } from "@logiflow/db";
 import { NextResponse, type NextRequest } from "next/server";
 import { getActor } from "@/lib/session";
 import { grantFor, type Permission, type Role } from "@logiflow/shared";
@@ -26,16 +25,11 @@ function errorResponse(
 
 /**
  * Auth + permission guard for route handlers.
- *
- * 1. Resolves the actor (mock or live session).
- * 2. Checks `access` (public → skip; auth → require session).
- * 3. Checks `permission` (if specified, actor must hold the grant).
- * 4. Records audit for `audited: true` routes on success.
  */
 export async function withAuth<Params extends Record<string, string> = Record<string, string>>(
   spec: RouteSpec,
   handler: (ctx: {
-    actor: Actor;
+    actor: any;
     params: Params;
     req: NextRequest;
     requestId: string;
@@ -47,8 +41,7 @@ export async function withAuth<Params extends Record<string, string> = Record<st
 
   // Public routes — no auth required
   if (spec.access === "public") {
-    // Build a minimal system actor for public routes
-    const actor: Actor = {
+    const actor = {
       userId: "anonymous",
       tenantId: "",
       name: "Anonymous",
@@ -56,7 +49,7 @@ export async function withAuth<Params extends Record<string, string> = Record<st
       role: "viewer" as Role,
       permissions: [],
       requestId,
-      source: "web",
+      source: "web" as const,
       reveal: false,
     };
     return handler({ actor, params: (params ?? {}) as Params, req, requestId });
@@ -76,17 +69,15 @@ export async function withAuth<Params extends Record<string, string> = Record<st
     }
   }
 
-  // Add requestId to the actor for downstream audit calls
   actor.requestId = requestId;
 
-  // Execute the handler
   const response = await handler({ actor, params: (params ?? {}) as Params, req, requestId });
 
   // Record audit for audited routes (only on success, only for non-GET)
   if (spec.audited && req.method !== "GET" && response.status >= 200 && response.status < 300) {
     try {
-      // Use a lazy import to avoid circular deps at module load time
-      const { getDb } = await import("@/lib/db");
+      // Lazy-load to avoid bundling native deps
+      const { recordAudit, getDb } = await import("@/lib/db-lazy");
       const db = getDb();
       recordAudit(db, actor, {
         action: `${req.method.toLowerCase()}.${spec.path.split("/").filter(Boolean).pop()}`,

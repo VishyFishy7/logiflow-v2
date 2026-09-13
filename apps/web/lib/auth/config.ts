@@ -1,13 +1,11 @@
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { verifyPassword, getDb, users, tenants } from "@logiflow/db";
-import { eq } from "drizzle-orm";
 
 /**
  * Auth.js v5 configuration (session strategy "jwt").
  *
- * The credentials provider reuses the password hasher from @logiflow/db —
- * scrypt with self-describing hash format.
+ * The credentials provider reuses the password hasher from @logiflow/db.
+ * We use require() to avoid Turbopack bundling the native module at load time.
  */
 export const authConfig: NextAuthConfig = {
   session: { strategy: "jwt" },
@@ -27,24 +25,29 @@ export const authConfig: NextAuthConfig = {
         const email = String(credentials.email).toLowerCase().trim();
         const password = String(credentials.password);
 
-        const db = getDb();
+        // require() at runtime so Turbopack doesn't bundle the native dep
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const mod = require("@logiflow/db");
+        const drizzleOrm = require("drizzle-orm");
+
+        const db = mod.getDb();
 
         const user = db
           .select()
-          .from(users)
-          .where(eq(users.email, email))
+          .from(mod.users)
+          .where(drizzleOrm.eq(mod.users.email, email))
           .get();
 
         if (!user) return null;
         if (!user.active) return null;
 
-        const result = verifyPassword(password, user.passwordHash);
+        const result = mod.verifyPassword(password, user.passwordHash);
         if (!result.valid) return null;
 
         const tenant = db
           .select()
-          .from(tenants)
-          .where(eq(tenants.id, user.tenantId))
+          .from(mod.tenants)
+          .where(drizzleOrm.eq(mod.tenants.id, user.tenantId))
           .get();
 
         if (!tenant) return null;
